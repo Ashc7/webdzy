@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茶百戏指尖生花</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #f5f5dc, #daa520, #8b4513);
+            background-size: 400% 400%;
+            animation: gradientMove 8s ease infinite;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            position: relative;
+            width: 640px;
+            height: 1008px;
+            margin: 0 auto;
+            background: url('./images/花鸟分享.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 5px solid #8B4513;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .button {
+            position: absolute;
+            width: 180px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px;
+            border: none;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        /* 去掉原来的渐变背景和文字样式，改为图片背景 */
+        .retry-btn {
+            bottom: 150px; /* 距离底部150px */
+            left: 100px;   /* 距离左边100px */
+            background-image: url('./images/再次按钮.gif');
+        }
+        
+        .share-btn {
+            bottom: 150px; /* 距离底部150px */
+            right: 100px;  /* 距离右边100px */
+            background-image: url('./images/分享按钮.gif');
+        }
+        
+        .button:hover {
+            transform: translateY(-10px) rotateX(15deg) scale(1.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .button:active {
+            transform: translateY(-5px) rotateX(5deg) scale(1.05);
+        }
+        
+        .particle-system {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFD700, #DAA520);
+            border-radius: 50%;
+            animation: particle-float 4s linear infinite;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-align: center;
+            min-width: 300px;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .popup h3 {
+            margin-top: 0;
+            color: #8B4513;
+        }
+        
+        .popup-buttons {
+            margin-top: 20px;
+        }
+        
+        .popup-btn {
+            margin: 0 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .popup-btn.primary {
+            background: #8B4513;
+            color: white;
+        }
+        
+        .popup-btn.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="particle-system" id="particleSystem"></div>
+        
+        <!-- 移除了 interactive-area 点击体验区域 -->
+        
+        <!-- 使用图片作为背景的按钮 -->
+        <div class="button retry-btn" onclick="showPopup('retry')"></div>
+        
+        <div class="button share-btn" onclick="showPopup('share')"></div>
+    </div>
+    
+    <div class="overlay" id="overlay" onclick="hidePopup()"></div>
+    <div class="popup" id="popup"></div>
+    
+    <script>
+        let particleCount = 0;
+        
+        function createParticle() {
+            if (particleCount < 20) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+                
+                document.getElementById('particleSystem').appendChild(particle);
+                particleCount++;
+                
+                setTimeout(() => {
+                    particle.remove();
+                    particleCount--;
+                }, 5000);
+            }
+        }
+        
+        // 移除了 createParticleBurst 函数，因为不再需要点击体验功能
+        
+        function showPopup(type) {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            
+            let content = '';
+            if (type === 'retry') {
+                content = `
+                    <h3>🍃 重新体验茶艺</h3>
+                    <p>让我们重新开始这段美妙的茶艺之旅</p>
+                    <div class="popup-buttons">
+                        <button class="popup-btn primary" onclick="confirmRetry()">开始新的体验</button>
+                        <button class="popup-btn secondary" onclick="hidePopup()">继续当前体验</button>
+                    </div>
+                `;
+            } else if (type === 'share') {
+                content = `
+                    <h3>🌸 分享茶艺体验</h3>
+                    <p>将这份美好分享给更多朋友</p>
+                    <div class="popup-buttons">
+                        <button class="popup-btn primary" onclick="shareExperience('wechat')" style="background: #1AAD19;">微信分享</button>
+                        <button class="popup-btn primary" onclick="shareExperience('weibo')" style="background: #E6162D;">微博分享</button>
+                        <button class="popup-btn primary" onclick="shareExperience('copy')" style="background: #4CAF50;">复制链接</button>
+                    </div>
+                    <button class="popup-btn secondary" onclick="hidePopup()" style="margin-top: 10px;">取消</button>
+                `;
+            }
+            
+            popup.innerHTML = content;
+            overlay.classList.add('show');
+            popup.classList.add('show');
+        }
+        
+        function hidePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            
+            popup.classList.remove('show');
+            overlay.classList.remove('show');
+        }
+        
+        function confirmRetry() {
+            hidePopup();
+            // 添加过渡效果
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+        
+        function shareExperience(platform) {
+            let message = '';
+            
+            switch(platform) {
+                case 'wechat':
+                    message = '正在启动微信分享...';
+                    break;
+                case 'weibo':
+                    message = '正在启动微博分享...';
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(window.location.href);
+                    message = '链接已复制到剪贴板！';
+                    break;
+            }
+            
+            // 显示成功消息
+            const popup = document.getElementById('popup');
+            popup.innerHTML = `
+                <h3>✅ 分享成功</h3>
+                <p>${message}</p>
+                <div class="popup-buttons">
+                    <button class="popup-btn primary" onclick="hidePopup()">完成</button>
+                </div>
+            `;
+            
+            if (platform !== 'copy') {
+                setTimeout(hidePopup, 2000);
+            }
+        }
+        
+        // 自动生成粒子效果
+        setInterval(createParticle, 1000);
+        
+        // 添加键盘支持
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hidePopup();
+            } else if (event.key === 'r' || event.key === 'R') {
+                showPopup('retry');
+            } else if (event.key === 's' || event.key === 'S') {
+                showPopup('share');
+            }
+        });
+        
+        // 鼠标悬停容器效果
+        const container = document.querySelector('.container');
+        container.addEventListener('mousemove', function(event) {
+            const rect = container.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / centerY * 5;
+            const rotateY = (x - centerX) / centerX * 5;
+            
+            container.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        container.addEventListener('mouseleave', function() {
+            container.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
+</body>
+</html>
