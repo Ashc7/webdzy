@@ -16,17 +16,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #8b7355;
+            background: transparent;
             overflow: hidden;
         }
         .container {
             position: relative;
-            width: 640px;
-            height: 1008px;
+            width: 100vw;
+            height: 157.5vw;
+            max-width: 640px;
+            max-height: 1008px;
             background-size: 100% 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-        
         /* 背景 */
         .background {
             position: absolute;
@@ -36,11 +37,10 @@
             background-size: 100% 100%;
             z-index: 1;
         }
-        
         /* 标题 */
         .title-section {
             position: absolute;
-            top: 1%;
+            top: -25%;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
@@ -53,15 +53,15 @@
             background-repeat: no-repeat;
             background-position: center;
             width: 100%;
-            height: 500px;
+            height: 234.375vw;
+            max-height: 1500px;
         }
-        
         /* 山水画 */
         .mountain {
             position: absolute;
-            left: 2%;
-            top: 10%;
-            width: 90%;
+            left: -1%;
+            top: -8%;
+            width: 180%;
             z-index: 3;
             animation: fadeIn 2s ease-out 0.5s both;
         }
@@ -70,15 +70,16 @@
             background-size: contain;
             background-repeat: no-repeat;
             width: 100%;
-            height: 600px;
+            height: 187.5vw;
+            max-height: 1200px;
         }
-        
         /* 印章 */
         .seal {
             position: absolute;
             right: 0.0001%;
-            top: 3%;
-            width: 300px;
+            top: 0.1%;
+            width: 93.75vw;
+            max-width: 600px;
             z-index: 6;
             animation: fadeIn 1s ease-out 1.5s both;
         }
@@ -87,80 +88,86 @@
             background-size: contain;
             background-repeat: no-repeat;
             width: 100%;
-            height: 600px;
+            height: 187.5vw;
+            max-height: 1200px;
         }
-        
         /* 茶碗容器 */
         .tea-bowl-container {
             position: absolute;
             left: 50%;
-            top: 54%;
+            top: 49%;
             transform: translate(-50%, -50%);
             width: 100%;
             z-index: 4;
+            overflow: visible;
         }
-        
-        /* 蒸汽容器 */
+        /* 蒸汽容器 - 修改位置和尺寸 */
         .steam-container {
             position: absolute;
-            width: 100%;
-            height: 200px;
-            top: +200px;
-            left: 30%;
+            width: 100%; /* 从70%增加到100% */
+            height: 80vw; /* 从60vw增加到80vw */
+            max-height: 512px; /* 从384px增加到512px */
+            top: 10vw;
+            left: 48%; /* 改回50%居中 */
             transform: translateX(-50%);
-            overflow: hidden;
-            z-index: 5;
+            overflow: visible;
+            z-index: 100;
+            pointer-events: none;
         }
-        
-        /* 蒸汽 */
+        /* 蒸汽元素 - 大幅增大尺寸 */
         .steam {
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 70vw; /* 从50vw增加到70vw */
+            height: 70vw; /* 从50vw增加到70vw */
+            max-width: 448px; /* 从320px增加到448px */
+            max-height: 448px; /* 从320px增加到448px */
             background-image: url('images3/素材/6.gif');
             background-size: contain;
             background-repeat: no-repeat;
+            background-position: center;
             opacity: 0;
+            z-index: 101;
         }
-        
         .steam1 {
-            left: 15%;
-            animation: steam-rise 4s ease-in-out infinite;
+            left: -5%; /* 调整位置 */
+            animation: steam-rise 5s ease-in-out infinite;
         }
         .steam2 {
-            left: 40%;
-            animation: steam-rise 4s ease-in-out 1.3s infinite;
+            left: 17.5%; /* 调整位置 */
+            animation: steam-rise 5s ease-in-out 1.5s infinite;
         }
         .steam3 {
-            left: 60%;
-            animation: steam-rise 4s ease-in-out 2.6s infinite;
+            left: 40%; /* 调整位置 */
+            animation: steam-rise 5s ease-in-out 3s infinite;
         }
-        
-        /* 蒸汽上升动画 */
+        /* 蒸汽上升动画 - 优化缩放比例 */
         @keyframes steam-rise {
             0% {
-                bottom: 0;
+                bottom: -5vw;
                 opacity: 0;
-                transform: translateX(0) scale(0.6);
+                transform: translateX(0) scale(0.8); /* 起始缩放增大 */
             }
-            20% {
-                opacity: 0.7;
+            10% {
+                opacity: 0.85;
             }
-            50% {
-                opacity: 0.5;
-                transform: translateX(10px) scale(1);
+            30% {
+                opacity: 0.95;
+            }
+            60% {
+                opacity: 0.65;
+                transform: translateX(5px) scale(1.2); /* 中间缩放增大 */
             }
             100% {
-                bottom: 180px;
+                bottom: 50vw; /* 增加上升距离 */
                 opacity: 0;
-                transform: translateX(-10px) scale(1.3);
+                transform: translateX(-5px) scale(1.8); /* 最终缩放大幅增大 */
             }
         }
-        
         /* 茶碗 */
         .tea-bowl {
             position: relative;
             animation: fadeIn 1.5s ease-out 1s both;
+            z-index: 2;
         }
         .tea-bowl-bg {
             background-image: url('images3/素材/1.2.gif');
@@ -168,53 +175,44 @@
             background-repeat: no-repeat;
             background-position: center;
             width: 100%;
-            height: 520px;
+            height: 203.125vw;
+            max-height: 1300px;
         }
-        
-        /* 底部按钮 */
+        /* 底部按钮 - 位置上移 */
         .buttons {
             position: absolute;
-            bottom: 7%;
+            bottom: 10%; /* 从7%增加到8% */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 35px;
+            gap: 10vw; /* 从8vw增加到10vw */
             z-index: 5;
             animation: fadeIn 1.5s ease-out 2s both;
         }
-        
-        /* 按钮样式 - 鼠标悬停时放大 */
+        /* 按钮样式 - 进一步增大尺寸 */
         .btn {
-            width: 100px;
-            height: 30px;
+            width: 35vw; /* 从25vw增加到35vw */
+            height: 10.5vw; /* 从7.5vw增加到10.5vw */
+            max-width: 224px; /* 从160px增加到224px */
+            max-height: 67px; /* 从48px增加到67px */
             background-size: 100% 100%;
             background-repeat: no-repeat;
             cursor: pointer;
-            transition: transform 0.3s ease; /* 平滑过渡效果 */
-            transform: scale(1); /* 初始状态 */
+            transition: transform 0.3s ease;
+            transform: scale(1);
         }
-        
-        /* 鼠标悬停：等比例放大到1.15倍 */
         .btn:hover {
             transform: scale(1.15);
         }
-        
-        /* 鼠标离开：自动恢复原样（由transition实现） */
-        /* 不需要额外代码，移除hover状态后自动恢复到scale(1) */
-        
-        /* 点击瞬间稍微缩小（可选，增加点击反馈） */
         .btn:active {
             transform: scale(1.05);
         }
-        
         .btn-exit {
             background-image: url('屏幕截图%202025-12-22%20202144.png');
         }
-        
         .btn-share {
             background-image: url('屏幕截图%202025-12-22%20202154.png');
         }
-        
         /* 统一淡入动画 */
         @keyframes fadeIn {
             from {
@@ -224,12 +222,68 @@
                 opacity: 1;
             }
         }
-        
         /* 响应式 */
-        @media (max-width: 768px) {
+        @media (min-aspect-ratio: 640/1008) {
             .container {
-                width: 90vw;
-                height: calc(90vw * 1.575);
+                width: 63.49206vh;
+                height: 100vh;
+            }
+            .main-title {
+                height: 148.809522vh;
+            }
+            .mountain-bg {
+                height: 119.047618vh;
+            }
+            .seal {
+                width: 59.523808vh;
+            }
+            .seal-bg {
+                height: 119.047618vh;
+            }
+            .steam-container {
+                height: 50.79365vh; /* 从38.095238vh增加 */
+                top: 35vh;
+                z-index: 100;
+                overflow: visible;
+                width: 100%;
+            }
+            .steam {
+                width: 44.444444vh; /* 从31.746032vh大幅增加到44.444444vh */
+                height: 44.444444vh; /* 从31.746032vh大幅增加到44.444444vh */
+                z-index: 101;
+            }
+            @keyframes steam-rise {
+                0% {
+                    bottom: -3.174603vh;
+                    opacity: 0;
+                    transform: translateX(0) scale(0.8);
+                }
+                10% {
+                    opacity: 0.85;
+                }
+                30% {
+                    opacity: 0.95;
+                }
+                60% {
+                    opacity: 0.65;
+                    transform: translateX(5px) scale(1.2);
+                }
+                100% {
+                    bottom: 31.746032vh; /* 增加上升距离 */
+                    opacity: 0;
+                    transform: translateX(-5px) scale(1.8);
+                }
+            }
+            .tea-bowl-bg {
+                height: 128.968253vh;
+            }
+            .buttons {
+                bottom: 10%; /* 从原来的位置上移 */
+                gap: 6.35vh; /* 从5.08vh增加到6.35vh */
+            }
+            .btn {
+                width: 22.22vh; /* 从15.873016vh增加到22.22vh */
+                height: 6.67vh; /* 从4.761905vh增加到6.67vh */
             }
         }
     </style>
@@ -256,12 +310,13 @@
         
         <!-- 茶碗与蒸汽 -->
         <div class="tea-bowl-container">
-            <!-- 蒸汽效果 -->
+            <!-- 蒸汽效果 - 必须在茶碗之前 -->
             <div class="steam-container">
                 <div class="steam steam1"></div>
                 <div class="steam steam2"></div>
                 <div class="steam steam3"></div>
             </div>
+            
             <!-- 茶碗 -->
             <div class="tea-bowl">
                 <div class="tea-bowl-bg"></div>
@@ -281,10 +336,19 @@
                 alert('退出游戏');
             }
         }
-
         function sharePoster() {
             alert('分享海报功能');
         }
+        
+        // 调试：检查图片是否加载成功
+        window.addEventListener('load', function() {
+            console.log('页面加载完成');
+            const steams = document.querySelectorAll('.steam');
+            console.log('蒸汽元素数量:', steams.length);
+            steams.forEach((steam, index) => {
+                console.log(`蒸汽${index + 1}位置:`, steam.getBoundingClientRect());
+            });
+        });
     </script>
 </body>
 </html>
