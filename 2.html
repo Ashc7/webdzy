@@ -53,7 +53,7 @@
             top: 54%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 250%;
+            width: 100%;
             height: auto;
             z-index: 5;
             pointer-events: none;
@@ -99,7 +99,7 @@
             left: 73%;
             transform: translate(-50%, -50%);
             font-family: '方正楷体', 'FZKai-Z03S', 'KaiTi', '楷体', serif;
-            font-size: 13px;
+            font-size: 3.25%; /* 相对于容器宽度 */
             color: #333;
             z-index: 7;
             white-space: nowrap;
@@ -119,7 +119,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-family: '方正楷体', 'FZKai-Z03S', 'KaiTi', '楷体', serif;
-            font-size: 18px;
+            font-size: 4.5%; /* 相对于容器宽度 */
             color: #8B4513;
             z-index: 7;
             font-weight: bold;
@@ -137,7 +137,7 @@
             top: 54%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 250%;
+            width: 100%;
             height: auto;
             z-index: 8;
             display: none;
@@ -184,110 +184,110 @@
         }
         
         .insert-icon {
-    position: absolute;
-    width: 15%; /* 相对于 .main-container 宽度 */
-    height: auto;
-    cursor: pointer;
-    z-index: 10;
-    transition: transform 0.2s ease;
-}
-.insert-icon:active {
-    transform: scale(0.9);
-}
-.icon-top-right {
-    top: 2%;
-    right: 2%;
-}
-.icon-top-left {
-    top: 2%;
-    left: 2%;
-}
+            position: absolute;
+            width: 15%;
+            height: auto;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s ease;
+        }
+        .insert-icon:active {
+            transform: scale(0.9);
+        }
+        .icon-top-right {
+            top: 2%;
+            right: 2%;
+        }
+        .icon-top-left {
+            top: 2%;
+            left: 2%;
+        }
         
        /* 小屏幕优化 */
-@media screen and (max-width: 375px) {
-    .main-container {
-        width: 90vw;
-    }
-    .insert-icon {
-        width: 16%; /* 只保留这个百分比，删除下面的 vw 和 min-width */
-    }
-    .icon-top-right {
-        top: 2%;
-        right: 2%;
-    }
-    .icon-top-left {
-        top: 2%;
-        left: 2%;
-    }
-    .center-bowl {
-        width: 100%;
-    }
-    .finished-img {
-        width: 100%;
-    }
-    .drag-tip {
-        font-size: 11px;
-    }
-    .progress-text {
-        font-size: 16px;
-        top: 33%;
-    }
-    .switchable-icon1, .switchable-icon2, .switchable-icon3 {
-        width: 23%;
-    }
-    .switchable-icon1 {
-        left: 6%;
-    }
-    .switchable-icon2 {
-        left: 39.5%;
-    }
-    .switchable-icon3 {
-        left: 73.5%;
-    }
-}
-
-/* 大屏幕优化 */
-@media screen and (min-width: 768px) {
-    .main-container {
-        max-width: 350px;
-    }
-    .insert-icon {
-        width: 14%; /* 只保留这个百分比，删除下面的 55px */
-    }
-    .icon-top-right {
-        top: 2%;
-        right: 2%;
-    }
-    .icon-top-left {
-        top: 2%;
-        left: 2%;
-    }
-    .center-bowl {
-        width: 90%;
-    }
-    .finished-img {
-        width: 90%;
-    }
-    .drag-tip {
-        font-size: 15px;
-    }
-    .progress-text {
-        font-size: 20px;
-        top: 34%;
-    }
-    .switchable-icon1, .switchable-icon2, .switchable-icon3 {
-        width: 24%;
-    }
-    .switchable-icon1 {
-        left: 4.8%;
-    }
-    .switchable-icon2 {
-        left: 37.5%;
-    }
-    .switchable-icon3 {
-        left: 71.5%;
-    }
-}
+        @media screen and (max-width: 375px) {
+            .main-container {
+                width: 90vw;
+            }
+            .insert-icon {
+                width: 16%;
+            }
+            .icon-top-right {
+                top: 2%;
+                right: 2%;
+            }
+            .icon-top-left {
+                top: 2%;
+                left: 2%;
+            }
+            .center-bowl {
+                width: 110%;
+            }
+            .finished-img {
+                width: 110%;
+            }
+            .drag-tip {
+                font-size: 2.75%;
+            }
+            .progress-text {
+                font-size: 4%;
+                top: 33%;
+            }
+            .switchable-icon1, .switchable-icon2, .switchable-icon3 {
+                width: 23%;
+            }
+            .switchable-icon1 {
+                left: 6%;
+            }
+            .switchable-icon2 {
+                left: 39.5%;
+            }
+            .switchable-icon3 {
+                left: 73.5%;
+            }
+        }
+        
+        /* 大屏幕优化 */
+        @media screen and (min-width: 768px) {
+            .main-container {
+                max-width: 350px;
+            }
+            .insert-icon {
+                width: 14%;
+            }
+            .icon-top-right {
+                top: 2%;
+                right: 2%;
+            }
+            .icon-top-left {
+                top: 2%;
+                left: 2%;
+            }
+            .center-bowl {
+                width: 90%;
+            }
+            .finished-img {
+                width: 90%;
+            }
+            .drag-tip {
+                font-size: 3.75%;
+            }
+            .progress-text {
+                font-size: 5%;
+                top: 34%;
+            }
+            .switchable-icon1, .switchable-icon2, .switchable-icon3 {
+                width: 24%;
+            }
+            .switchable-icon1 {
+                left: 4.8%;
+            }
+            .switchable-icon2 {
+                left: 37.5%;
+            }
+            .switchable-icon3 {
+                left: 71.5%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -348,7 +348,7 @@
             currentBottomIndex1 = 1 - currentBottomIndex1;
             bottomSwitchIcon1.style.backgroundImage = `url('${bottomIconPaths1[currentBottomIndex1]}')`;
             
-            
+           
         });
         
         // 🔥 底部第二个图标切换功能
@@ -358,8 +358,7 @@
         bottomSwitchIcon2.addEventListener('click', function() {
             currentBottomIndex2 = 1 - currentBottomIndex2;
             bottomSwitchIcon2.style.backgroundImage = `url('${bottomIconPaths2[currentBottomIndex2]}')`;
-
-            // 切换到第二张图片时激活拖动模式
+             // 切换到第二张图片时激活拖动模式
             if (currentBottomIndex2 === 1) {
                 dragMode = true;
                 handIcon.classList.add('show');
